@@ -1,32 +1,51 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-function Button({ text, onClick = () => {} }) {
+function Button({
+  text,
+  size = "small",
+  onClick = () => {},
+  disabled = false,
+}) {
   return (
-    <LetterAddBtnContainer>
-      <LetterAddBtn onClick={onClick}>{text}</LetterAddBtn>
+    <LetterAddBtnContainer size={size} disabled={disabled}>
+      <button onClick={onClick}>{text}</button>
     </LetterAddBtnContainer>
   );
 }
 
 export default Button;
 
-const LetterAddBtn = styled.button`
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  user-select: none;
-  background-color: skyblue;
-  text-align: right;
-  color: black;
-  font-size: 16px;
-  &:hover {
-    background-color: #5a88c5;
-    color: white;
-  }
-`;
-
 const LetterAddBtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  & button {
+    ${(props) => {
+      if (props.disabled) {
+        return css`
+          background-color: lightgray;
+        `;
+      }
+      return css`
+        background-color: skyblue;
+      `;
+    }}
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+    ${(props) => {
+      if (props.size === "large") {
+        return css`
+          padding: 12px 18px;
+          width: 100%;
+        `;
+      }
+      return css`
+        padding: 5px 10px;
+      `;
+    }}
+  }
 `;

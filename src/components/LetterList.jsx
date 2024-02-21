@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 const LetterList = () => {
   const activeMember = useSelector(state => state.member);
   const letters = useSelector(state => state.letters);
+
   const filterLetterList = letters.filter(
     (letter) => letter.writedTo === activeMember
   );
