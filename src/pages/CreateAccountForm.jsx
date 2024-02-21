@@ -9,9 +9,8 @@ const CreateAccountForm = () => {
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    navigate('/loginform')
+    navigate("/loginform");
   };
-
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -22,7 +21,8 @@ const CreateAccountForm = () => {
     }));
   };
 
-  const isLoginDisabled = auth.id === "" || auth.password === "" || auth.nickname;
+  const isSignUpDisabled =
+    auth.id === "" || auth.password === "" || auth.nickname === "";
 
   return (
     <Container>
@@ -31,7 +31,8 @@ const CreateAccountForm = () => {
         <EmailInputBox>
           <label>ID</label>
           <input
-            type="email"
+            type="text"
+            name="id"
             value={auth.id}
             onChange={onChangeInput}
             minLength={4}
@@ -44,6 +45,7 @@ const CreateAccountForm = () => {
           <label>PW</label>
           <input
             type="password"
+            name="password"
             value={auth.password}
             onChange={onChangeInput}
             minLength={4}
@@ -56,14 +58,17 @@ const CreateAccountForm = () => {
           <label>Nickname</label>
           <input
             type="text"
+            name="nickname"
             value={auth.nickname}
             onChange={onChangeInput}
+            minLength={1}
+            maxLength={10}
             placeholder="닉네임 (1~10글자)"
             required
           />
         </NickNameInputBox>
         <div>
-          <button>회원가입</button>
+          <SignUpButton disabled={isSignUpDisabled}>회원가입</SignUpButton>
         </div>
       </SignInContainer>
     </Container>
@@ -146,5 +151,23 @@ const NickNameInputBox = styled.div`
     font-size: 16px;
     border: 1px solid black;
     border-radius: 15px;
+  }
+`;
+
+const SignUpButton = styled.button`
+  height: 50px;
+  font-size: 22px;
+  color: white;
+  background-color: skyblue;
+  border: 1px solid black;
+  border-radius: 15px;
+  cursor: pointer;
+  &:hover {
+    background-color: skyblue;
+  }
+
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
   }
 `;
