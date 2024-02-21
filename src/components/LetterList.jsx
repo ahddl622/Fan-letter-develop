@@ -8,6 +8,7 @@ const LetterList = () => {
   const filterLetterList = letters.filter(
     (letter) => letter.writedTo === activeMember
   );
+
   return (
     <LetterListWrapper>
       {filterLetterList.length === 0 ? (
@@ -16,7 +17,9 @@ const LetterList = () => {
           주인공이 되어보세요!
         </p>
       ) : (
-        filterLetterList.map((letter) => <LetterItem letter={letter} />)
+        filterLetterList.map((letter) => (
+          <LetterItem key={letter.id} letter={letter} />
+        ))
       )}
     </LetterListWrapper>
   );

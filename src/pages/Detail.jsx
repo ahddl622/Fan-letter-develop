@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getFormattedDate } from "util/date";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteLetter, editLetter } from "../redux/modules/letters";
+import { deleteLetter, editLetter } from "../redux/modules/letterSlice";
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -22,13 +22,13 @@ const Detail = () => {
     const answer = window.confirm("해당 팬레터를 삭제 하시겠습니까?");
     if (!answer) return;
 
-    dispatch(deleteLetter(id))
+    dispatch(deleteLetter(id));
     navigate("/");
   };
   const onEditDone = () => {
     if (!editingText) return alert("수정사항이 없습니다.");
 
-    dispatch(editLetter({id, editingText}))
+    dispatch(editLetter({ id, editingText }));
     setIsEditing(false);
     setEditingText("");
   };
