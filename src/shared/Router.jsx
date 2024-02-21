@@ -4,20 +4,28 @@ import Detail from "pages/Detail";
 import Home from "pages/Home";
 import LoginForm from "pages/LoginForm";
 import MyProfile from "pages/MyProfile";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 function Router() {
+  const [isLogin, setIsLogin] = useState(false);
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route element={<Layout/>}> */}
-          <Route path="/" element={<Home />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/loginform" element={<LoginForm />} />
-          <Route path="/createaccountform" element={<CreateAccountForm />} />
-          <Route path="/myprofile" element={<MyProfile />} />
-          <Route path="*" element={<Navigate replace to="/" />} />
-        {/* </Route> */}
+        {isLogin ? (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/myprofile" element={<MyProfile />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
+          </>
+        ) : (
+          <>
+            <Route path="/loginform" element={<LoginForm />} />
+            <Route path="/createaccountform" element={<CreateAccountForm />} />
+            <Route path="/*" element={<Navigate replace to="/loginform" />} />
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );
