@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import Button from "./common/Button";
 import { useDispatch } from "react-redux";
-import { addLetter } from "../redux/modules/letters";
+import { addLetter } from "../redux/modules/letterSlice";
 
 const LettetForm = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const LettetForm = () => {
       avatar: null,
     };
 
-    dispatch(addLetter(newLetter))
+    dispatch(addLetter(newLetter));
     setNickName("");
     setContent("");
   };
