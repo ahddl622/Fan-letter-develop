@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { login } from "reduxStore/modules/authSlice";
+import { __login } from "reduxStore/modules/authSlice";
 import Button from "components/common/Button";
 import { toast } from "react-toastify";
 import useForm from "hooks/useForm";
@@ -21,20 +21,9 @@ const LoginForm = () => {
     e.preventDefault();
     console.log("제출");
     if (isLoginMode) {
-      try {
-        const { data } = await fanletterClient.post("/login", {
-          id,
-          password,
-        });
-        const { accessToken, avatar, nickname, userId } = data;
-        if (data.success) {
-          dispatch(login({ accessToken, avatar, nickname, userId }));
-          toast.success("로그인 성공");
-        }
-      } catch (err) {
-        toast.error(err.response.data.message);
-      }
+      dispatch(__login({ id, password }));
     } else {
+      // 회원가입
       try {
         const { data } = await fanletterClient.post("/register", {
           id,

@@ -1,3 +1,31 @@
 {
-  "letters": []
+  "letters": [
+    {
+      "id": "13c7d600-ac84-4310-a4f8-01538a68d741",
+      "nickname": "박재민",
+      "content": "1111",
+      "createdAt": 1708576607043,
+      "writedTo": "카리나",
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/24-02-22/85325945-6f5a-4861-a76c-220ac34f9d64.jpg",
+      "userId": "ahddl6222"
+    },
+    {
+      "id": "053767e2-0929-45fa-b8c1-9db8f4334057",
+      "nickname": "박재민",
+      "content": "2222",
+      "createdAt": 1708576608345,
+      "writedTo": "카리나",
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/24-02-22/85325945-6f5a-4861-a76c-220ac34f9d64.jpg",
+      "userId": "ahddl6222"
+    },
+    {
+      "id": "d48e6784-4761-43d0-a2c3-da22e503b3b1",
+      "nickname": "박재민",
+      "content": "3333",
+      "createdAt": 1708576673754,
+      "writedTo": "카리나",
+      "avatar": "https://react-jwt-avatar.s3.ap-northeast-2.amazonaws.com/24-02-22/85325945-6f5a-4861-a76c-220ac34f9d64.jpg",
+      "userId": "ahddl6222"
+    }
+  ]
 }

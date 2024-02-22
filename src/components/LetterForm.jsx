@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import Button from "./common/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { addLetter } from "reduxStore/modules/letterSlice";
+import { __addLetter } from "reduxStore/modules/letterSlice";
 
 const LettetForm = () => {
   const dispatch = useDispatch();
-  const { avatar, nickname } = useSelector((state) => state.auth);
+  const { avatar, nickname, userId } = useSelector((state) => state.auth);
   const [content, setContent] = useState("");
   const [member, setMember] = useState("카리나");
 
@@ -21,12 +21,13 @@ const LettetForm = () => {
       id: uuid(),
       nickname,
       content,
-      createdAt: new Date().toString(),
+      createdAt: Date.now(),
       writedTo: member,
       avatar,
+      userId
     };
 
-    dispatch(addLetter(newLetter));
+    dispatch(__addLetter(newLetter));
     setContent("");
   };
 
