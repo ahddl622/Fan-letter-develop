@@ -12,12 +12,12 @@ function Router() {
     <BrowserRouter>
       <Routes>
         {isLogin ? (
-          <>
+          <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/detail/:id" element={<Detail />} />
             <Route path="/myprofile" element={<MyProfile />} />
             <Route path="*" element={<Navigate replace to="/" />} />
-          </>
+          </Route>
         ) : (
           <>
             <Route path="/loginform" element={<LoginForm />} />

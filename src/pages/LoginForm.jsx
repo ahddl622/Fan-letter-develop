@@ -5,6 +5,7 @@ import { login } from "reduxStore/modules/authSlice";
 import Button from "components/common/Button";
 import { toast } from "react-toastify";
 import useForm from "hooks/useForm";
+import { fanletterClient } from "api/fanletter-api";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -16,16 +17,39 @@ const LoginForm = () => {
   });
   const { id, password, nickname } = formState;
 
-  const onSubmitForm = (e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
     console.log("제출");
     if (isLoginMode) {
-      dispatch(login());
-      toast.success("로그인 성공");
+      try {
+        const { data } = await fanletterClient.post("/login", {
+          id,
+          password,
+        });
+        const { accessToken, avatar, nickname, userId } = data;
+        if (data.success) {
+          dispatch(login({ accessToken, avatar, nickname, userId }));
+          toast.success("로그인 성공");
+        }
+      } catch (err) {
+        toast.error(err.response.data.message);
+      }
     } else {
-      setIsLoginMode(true);
-      resetForm();
-      toast.success("회원가입 성공");
+      try {
+        const { data } = await fanletterClient.post("/register", {
+          id,
+          password,
+          nickname,
+        });
+        if (data.success) {
+          setIsLoginMode(true);
+          resetForm();
+          toast.success("회원가입 성공");
+        }
+      } catch (err) {
+        console.log("err:", err);
+        toast.error(err.response.data.message);
+      }
     }
   };
 
