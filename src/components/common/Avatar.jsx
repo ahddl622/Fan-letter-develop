@@ -1,15 +1,13 @@
 import styled, { css } from "styled-components";
 import defaultUser from "assets/user.png";
 
-function Avatar({ src, size }) {
+export default function Avatar({ src, size }) {
   return (
     <AvatarFigure size={size}>
       <img src={src ?? defaultUser} alt="아바타이미지" />
     </AvatarFigure>
   );
 }
-
-export default Avatar;
 
 const AvatarFigure = styled.figure`
   ${(props) => {

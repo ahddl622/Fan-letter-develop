@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setMember } from "../redux/modules/member";
+import { setMember } from "reduxStore/modules/memberSlice";
 
 const LetterNav = () => {
   const activeMember = useSelector((state) => state.member);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const onActvieMember = (e) => {
     if (e.target === e.currentTarget) return;
 
-    dispatch(setMember(e.target.textContent))
+    dispatch(setMember(e.target.textContent));
   };
 
   return (

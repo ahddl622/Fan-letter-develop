@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import LetterItem from "./LetterItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { __getLetters } from "reduxStore/modules/letterSlice";
 
 const LetterList = () => {
-  const activeMember = useSelector(state => state.member);
-  const letters = useSelector(state => state.letters);
+  const dispatch = useDispatch();
+  const activeMember = useSelector((state) => state.member);
+  const letters = useSelector((state) => state.letters.letters);
+
   const filterLetterList = letters.filter(
     (letter) => letter.writedTo === activeMember
   );
+
+  useEffect(() => {
+    dispatch(__getLetters());
+  }, []);
 
   return (
     <LetterListWrapper>

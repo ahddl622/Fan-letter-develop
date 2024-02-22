@@ -4,7 +4,7 @@ import Avatar from "./common/Avatar";
 import { getFormattedDate } from "util/date";
 
 const LetterItem = ({ letter }) => {
-  const { id, nickname, content, createdAt, avatar, writedTo } = letter;
+  const { id, nickname, content, createdAt, avatar } = letter;
   const navigate = useNavigate();
 
 
@@ -34,7 +34,7 @@ const LetterWrapper = styled.li`
   border-radius: 10px;
   cursor: pointer;
 `;
-const UserInfo = styled.li`
+const UserInfo = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;

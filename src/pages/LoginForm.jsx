@@ -1,36 +1,50 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { __login } from "reduxStore/modules/authSlice";
+import Button from "components/common/Button";
+import { toast } from "react-toastify";
+import useForm from "hooks/useForm";
+import { fanletterClient } from "api/fanletter-api";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
-  const [auth, setAuth] = useState({ id: "", password: "" });
+  const dispatch = useDispatch();
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  const { formState, onChangeInput, resetForm } = useForm({
+    id: "",
+    password: "",
+    nickname: "",
+  });
+  const { id, password, nickname } = formState;
 
-  const onSubmitForm = (e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
-
-    navigate('/')
+    console.log("제출");
+    if (isLoginMode) {
+      dispatch(__login({ id, password }));
+    } else {
+      // 회원가입
+      try {
+        const { data } = await fanletterClient.post("/register", {
+          id,
+          password,
+          nickname,
+        });
+        if (data.success) {
+          setIsLoginMode(true);
+          resetForm();
+          toast.success("회원가입 성공");
+        }
+      } catch (err) {
+        console.log("err:", err);
+        toast.error(err.response.data.message);
+      }
+    }
   };
-
-  const CreateAccountPage = (e) => {
-    e.preventDefault();
-    navigate("/createaccountform");
-  };
-
-  const onChangeInput = (e) => {
-    const { name, value } = e.target;
-
-    setAuth((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const isLoginDisabled = auth.id === "" || auth.password === "";
 
   return (
     <Container>
-      <LoginTitle>Login</LoginTitle>
+      <LoginTitle>{isLoginMode ? "로그인" : "회원가입"}</LoginTitle>
       <LoginContainer onSubmit={onSubmitForm}>
         <EmailInputBox>
           <label>ID</label>
@@ -42,7 +56,7 @@ const LoginForm = () => {
             maxLength={10}
             required
             onChange={onChangeInput}
-            value={auth.id}
+            value={id}
           />
         </EmailInputBox>
         <PasswordInputBox>
@@ -55,12 +69,35 @@ const LoginForm = () => {
             maxLength={15}
             required
             onChange={onChangeInput}
-            value={auth.password}
+            value={password}
           />
         </PasswordInputBox>
+        {!isLoginMode && (
+          <NickNameInputBox>
+            <label>Nickname</label>
+            <input
+              type="text"
+              name="nickname"
+              value={nickname}
+              onChange={onChangeInput}
+              minLength={1}
+              maxLength={10}
+              placeholder="닉네임 (1~10글자)"
+              required
+            />
+          </NickNameInputBox>
+        )}
         <LoginNRegisterBox>
-          <LoginButton disabled={isLoginDisabled}>로그인</LoginButton>
-          <button onClick={CreateAccountPage}>회원가입</button>
+          <Button
+            text={isLoginMode ? "로그인" : "회원가입"}
+            disabled={
+              isLoginMode ? !id || !password : !id || !password || !nickname
+            }
+            size="large"
+          ></Button>
+          <CreateAccountButton onClick={() => setIsLoginMode((prev) => !prev)}>
+            {isLoginMode ? "회원가입" : "로그인"}
+          </CreateAccountButton>
         </LoginNRegisterBox>
       </LoginContainer>
     </Container>
@@ -129,6 +166,23 @@ const PasswordInputBox = styled.div`
   }
 `;
 
+const NickNameInputBox = styled.div`
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+
+  & input {
+    width: 22rem;
+    height: 40px;
+    padding-left: 15px;
+    margin-top: 10px;
+
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 15px;
+  }
+`;
+
 const LoginNRegisterBox = styled.div`
   height: 7rem;
   display: flex;
@@ -136,7 +190,7 @@ const LoginNRegisterBox = styled.div`
   justify-content: space-between;
 `;
 
-const LoginButton = styled.button`
+const CreateAccountButton = styled.button`
   height: 50px;
   font-size: 22px;
   color: white;
@@ -145,11 +199,6 @@ const LoginButton = styled.button`
   border-radius: 15px;
   cursor: pointer;
   &:hover {
-    background-color: skyblue;
-  }
-
-  &:disabled {
-    background-color: gray;
-    cursor: not-allowed;
+    color: black;
   }
 `;
